@@ -1,0 +1,25 @@
+var op = new GlideRecord('incident');
+op.addEncodedQuery('numberSTARTSWITHINC0243545');
+op.query();
+
+while (op.next()) {
+    gs.log('Number is ' + op.getValue('number'));
+    gs.log('Assignment Group is ' + op.assignment_group.getDisplayValue());
+
+    // Use addQuery to filter sys_user records to only those marked as VIP
+    var gp = new GlideRecord('sys_user');
+    gp.addQuery('vip', true);
+    gp.query();
+
+    while (gp.next()) {
+        gs.log('User name is ' + gp.first_name);
+
+        // Check if the user is a member of the specified group
+        if (gp.ismemberOf('TRADING_IT_FO')) {
+            gs.log('User is a member of TRADING_IT_FO');
+        }
+        else{
+            gs.log('bye');
+        }
+    }
+}
